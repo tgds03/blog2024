@@ -22,8 +22,8 @@ title: brights2ella
 email: xyzuct6800@naver.com
 description: >- # this means to ignore newlines until "baseurl:"
   잡다한 기록
-baseurl: "/blog2024/" # the subpath of your site, e.g. /blog
-url: "tgds03.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "tgds03.github.io/blog2024" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: brights2ella
 github_username:  tgds03
 
