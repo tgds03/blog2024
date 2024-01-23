@@ -1,0 +1,12 @@
+<nav class="text-end" aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+	<ol class="breadcrumb d-flex">
+		<li class="breadcrumb-item"><a href="/">Home</a></li>
+		{% assign url = '' %}
+		{% for category in include.categories %}
+			{% assign url = url | append: '/' %}
+			{% assign url = url | append: category %}
+			<li class="breadcrumb-item"><a href={{url}}>{{category}}</a></li>
+		{% endfor %}
+		<li class="breadcrumb-item active" aria-current="page"></li>
+	</ol>
+</nav>

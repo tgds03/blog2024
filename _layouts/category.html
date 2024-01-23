@@ -1,0 +1,60 @@
+---
+layout: default
+---
+
+{% assign breadCrumb = page.categories %}
+{% include breadCrumb.html categories=breadCrumb %}
+<h1> Category: {{ page.categories | last }} </h1>
+<div class="container mt-3">
+	<div class="row">
+		<div class="col-sm-4 d-flex flex-column">
+			<h2> SuperCategory </h2>
+			<div class="list-group list-group-flush mb-5">
+				{% if page.categories.size == 1 %}
+				<a 
+					class="list-group-item list-group-item-action disabled" 
+					aria-disabled="true"
+				>
+					<h3>root</h3>
+				</a>
+				{% else %}
+				<a 
+					href="/{{page.categories | pop | join: "/"}}"
+					class="list-group-item list-group-item-action"
+				>
+					<h3>{{page.categories | pop | last}}</h3>
+				</a>
+				{% endif %}
+
+			</div>
+			<h2> SubCategory </h2>
+			<div class="list-group list-group-flush">
+				{% for subCategory in page.children %}
+				<a 
+					href="/{{page.categories | join: "/"}}/{{subCategory}}" 
+					class="list-group-item list-group-item-action"
+				>
+					<h3>{{subCategory}}</h3>
+				</a>
+				{% endfor %}
+
+			</div>
+		</div>
+		<div class="col">
+			<h2> Posts </h2>
+
+			{% assign category = page.categories[-1] %}
+			{% assign postlist = site.categories[category] %}
+			{% assign filteredlist = '' | split: '' %}
+			{% for post in postlist %}
+				{% assign lastCategory = post.categories | last%}
+				{% if lastCategory == category %}
+					{% assign filteredlist = filteredlist | push: post %}
+				{% endif %}
+			{% endfor %}
+			{% include postList.html postlist=filteredlist %}
+		</div>
+	</div>
+
+	
+</div>

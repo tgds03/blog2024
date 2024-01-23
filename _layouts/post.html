@@ -1,0 +1,95 @@
+---
+layout: default
+---
+
+<div class="row">
+	<div class="col-md">
+		<h1 class="display-4">{{ page.title }}</h1>
+		<div class="container-fliud">
+			
+			<div class="row my-1">
+				<div class="col">
+					{{ page.date | date: "%Y-%m-%d %a" }} 에 작성됨
+				</div>
+				<nav class="col text-end" aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+					<ol class="breadcrumb d-flex justify-content-end">
+						<li class="breadcrumb-item"><a href="/">Home</a></li>
+						{% assign url = '' %}
+						{% for category in page.categories %}
+							{% assign url = url | append: '/' %}
+							{% assign url = url | append: category %}
+							<li class="breadcrumb-item"><a href={{url}}>{{category}}</a></li>
+						{% endfor %}
+						<li class="breadcrumb-item active" aria-current="page">{{page.title}}</li>
+					</ol>
+				</nav>
+				
+			</div>
+			<div class="d-flex justify-content-start my-1">
+				{% for tag in page.tags %}
+				<a href="javascript:search('{{tag}}');">
+					<div class="badge bg-secondary rounded-pill me-2">{{tag}}</div>
+				</a>
+				{% endfor %}
+			</div>
+		</div>
+		
+		<article class="mx-3 my-3" data-bs-spy="scroll" data-bs-target="#pageNavigation">
+			{{ content }}
+		</article>
+	</div>
+	<div class="col-sm-2">
+		<div id="pageNavigation" class="position-sticky d-flex flex-column" style="top:4rem;">
+			<strong id="pageNavSpan" class="px-3 py-2"></strong>
+		</div>
+	</div>
+	<script>
+		function createPageNavigation() {
+			const $pageNavDiv = document.getElementById("pageNavigation");
+			const articleHeaders = document.querySelectorAll("article > h1, h2, h3, h4, h5, h6");
+			if (articleHeaders.length == 0) {
+				document.getElementById("pageNavSpan").textContent = "목차가 없어요";
+				return;
+			} else {
+				document.getElementById("pageNavSpan").textContent = "목차";
+			}
+			// let $nowNav = document.getElementById("pageNavigation");
+			let $nowNav = document.createElement("nav")
+			$nowNav.className = "nav nav-pills flex-column";
+			$pageNavDiv.append($nowNav);
+
+			let nowLevel = 'H1';
+			for (const header of articleHeaders) {
+				if (nowLevel < header.tagName) {
+					const $nav = document.createElement("nav");
+					$nav.className = "nav nav-pills ms-3 my-1 flex-column";
+					$nowNav.append($nav);
+					$nowNav = $nav;
+				} else if (nowLevel > header.tagName) {
+					$nowNav = $nowNav.parentElement;
+				}
+				nowLevel = header.tagName;
+				const $targetNav = $nowNav;
+				const $headerlink = document.createElement("a");
+				$headerlink.className = "nav-link";
+				$headerlink.href = "#"+header.id;
+				$headerlink.textContent = header.textContent;
+				$targetNav.append($headerlink)
+			}
+		}
+		createPageNavigation();
+		
+		function footnotePopover() {
+			const footnoteList = document.querySelectorAll(".footnote");
+			for (const footnote of footnoteList) {
+				footnote.classList.add("px-1");
+				const footnoteId = footnote.href.split('#')[1].replace(/:/g, "\\:");
+				const footnoteContent = document.querySelector(`#${footnoteId} > p`).firstChild.textContent.trim();
+				const tooltip = new bootstrap.Tooltip(footnote, {
+					title: footnoteContent
+				})
+			}
+		}
+		footnotePopover();
+	</script>
+</div>
