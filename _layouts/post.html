@@ -2,17 +2,17 @@
 layout: default
 ---
 
-<div class="row">
-	<div class="col-md">
+<div class="row flex-column flex-lg-row">
+	<div class="col">
 		<h1 class="display-4">{{ page.title }}</h1>
 		<div class="container-fliud">
 			
-			<div class="row my-1">
+			<div class="row my-1 flex-column flex-lg-row">
 				<div class="col">
 					{{ page.date | date: "%Y-%m-%d %a %H:%M" }} 에 작성됨
 				</div>
-				<nav class="col text-end" aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
-					<ol class="breadcrumb d-flex justify-content-end">
+				<nav class="col text-start text-lg-end" aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+					<ol class="breadcrumb d-flex justify-content-lg-end">
 						<li class="breadcrumb-item"><a href="/">Home</a></li>
 						{% assign url = '' %}
 						{% for category in page.categories %}
@@ -38,7 +38,7 @@ layout: default
 			{{ content }}
 		</article>
 	</div>
-	<div class="col-sm-2">
+	<div class="col col-lg-2 order-first order-lg-last">
 		<div id="pageNavigation" class="position-sticky d-flex flex-column" style="top:4rem;">
 			<strong id="pageNavSpan" class="px-3 py-2"></strong>
 		</div>
