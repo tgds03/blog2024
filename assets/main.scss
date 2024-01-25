@@ -10,6 +10,16 @@
 	color: var(--bs-body-color);
 }
 
+.highlighter-rouge {
+	margin-top: 0;
+	margin-bottom: 1rem;
+}
+
+article > .footnotes {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+
 // pre {
 // 	// background-color: var(--bs-secondary-bg);
 // 	border-radius: 0.5rem;

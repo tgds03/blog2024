@@ -2,7 +2,7 @@
 <ul class="list-group list-group-flush">
 	{%- for post in include.postlist -%}
 	<li class="list-group-item py-3">
-		{%- assign date_format = site.minima.date_format | default: "%Y-%m-%d %a" -%}
+		{%- assign date_format = site.minima.date_format | default: "%Y-%m-%d %a %H:%M" -%}
 		<div class="post-category">
 			{% include breadCrumb.html categories=post.categories %}
 		</div>
