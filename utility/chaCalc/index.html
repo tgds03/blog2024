@@ -1,0 +1,64 @@
+---
+layout: utility
+---
+
+<div class="container">
+	<div class="row text-center">
+		<canvas id="lineChart" class="col" style="min-height: 300px;"></canvas>
+	</div>
+	<div class="row text-left">
+		<div class="col">
+			<div class="form-check container">
+				<div class="row">
+					<div class="col">
+						<label class="form-label"> 모음 </label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<input class="btn-check" type="radio" name="vowelSelect" id="vowelSelectRadio1" value="a" checked>
+						<label class="btn" for="vowelSelectRadio1"> ㅏ </label>
+					</div>
+					<div class="col">
+						<input class="btn-check" type="radio" name="vowelSelect" id="vowelSelectRadio2" value="7">
+						<label class="btn" for="vowelSelectRadio2"> ㅓ </label>
+					</div>
+					<div class="col">
+						<input class="btn-check" type="radio" name="vowelSelect" id="vowelSelectRadio3" value="o">
+						<label class="btn" for="vowelSelectRadio3"> ㅗ </label>
+					</div>
+					<div class="col">
+						<input class="btn-check" type="radio" name="vowelSelect" id="vowelSelectRadio4" value="u">
+						<label class="btn" for="vowelSelectRadio4"> ㅜ </label>
+					</div>
+					<div class="col">
+						<input class="btn-check" type="radio" name="vowelSelect" id="vowelSelectRadio5" value="M">
+						<label class="btn" for="vowelSelectRadio5"> ㅡ </label>
+					</div>
+					<div class="col">
+						<input class="btn-check" type="radio" name="vowelSelect" id="vowelSelectRadio6" value="i"> 
+						<label class="btn" for="vowelSelectRadio6"> ㅣ </label>
+					</div>
+					<div class="col">
+						<input class="btn-check" type="radio" name="vowelSelect" id="vowelSelectRadio7" value="e">
+						<label class="btn" for="vowelSelectRadio7"> ㅐ </label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-8 container">
+			<div class="row">
+				<div class="col">
+					<label class="label" id="toneRangeLabel">음</label>
+					<input type="range" class="form-range" id="toneRange" min="0" max="48">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<label class="label" id="chaRangeLabel">CHA</label>
+					<input type="range" class="form-range" id="chaRange" min="-64" max="63">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
