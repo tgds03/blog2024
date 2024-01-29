@@ -1,3 +1,5 @@
+import freq2Tone from "./tonenamer.js"
+
 class Controller {
 	constructor() {
 		// this.registerEvent();
@@ -40,14 +42,14 @@ class ChaController extends Controller {
 	}
 }
 
-const toneName = [ "A", "A♯", "B", "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯" ]
-
 class ToneController extends Controller {
 	constructor(rangeId, labelId, callback) {
 		super();
 
 		this.$range = document.getElementById(rangeId);
 		this.$label = document.getElementById(labelId);
+		this.freq = 110 * Math.pow(2, this.$range.value / 12);
+		this.toneName = freq2Tone(this.freq);
 		
 		this.callback = callback;
 		this.updateLabel();
@@ -59,29 +61,18 @@ class ToneController extends Controller {
 	}
 
 	update = () => {
+		this.updateVars();
 		this.updateLabel();
 		this.callback();
 	}
 
 	updateLabel = () => {
-		const val = this.toneNamer();
-		this.$label.innerHTML = "노트 : " + val;
+		this.$label.innerHTML = "노트 : " + this.toneName;
 	}
 
-	toneNamer = () => {
-		// 0 : YAMAHA A1 (110Hz)
-		const val = Number(this.$range.value);
-		return toneName[val % 12] + (Math.trunc( (val-3) / 12) + 2);
-	}
-
-	freqNamer = () => {
-		// 0 : YAMAHA A1 (110Hz) 	
-		return this.freq().toFixed(2) + "hz";
-	}
-
-	freq = () => {
-		const val = this.$range.value;
-		return 110 * Math.pow(2, val / 12);
+	updateVars = () => {
+		this.freq = 110 * Math.pow(2, this.$range.value / 12);
+		this.toneName = freq2Tone(this.freq);
 	}
 }
 
@@ -92,6 +83,8 @@ class PBController extends Controller {
 		this.$range = document.getElementById(rangeId);
 		this.$label = document.getElementById(labelId);
 		this.value = 0;
+		this._range = 480;
+		this._offset = 0;
 		this.callback = callback;
 
 		this.registerEvent();
@@ -104,7 +97,7 @@ class PBController extends Controller {
 	}
 
 	update = () => {
-		this.value = this.$range.value / 480 * 2400;
+		this.updateVars();
 		this.updateLabel();
 		this.callback();
 	}
@@ -116,6 +109,18 @@ class PBController extends Controller {
 	reset = () => {
 		this.$range.value = 0;
 		this.update();
+	}
+
+	updateVars = () => {
+		this.value = this.$range.value / this._range * 2400 + this._offset;
+	}
+
+	setRange = (range) => {
+		const temp = this.$range.value;
+		this.$range.max = range;
+		this.$range.min = -range;
+		this.$range.value = temp * range / this._range;
+		this._range = range;
 	}
 }
 
@@ -141,4 +146,25 @@ class VowelContorller extends Controller {
 	}
 }
 
-export { ChaController, ToneController, VowelContorller, PBController }
+class PitchLockController extends Controller {
+	constructor(checkId, callback) {
+		super();
+
+		this.$check = document.getElementById(checkId);
+		this.callback = callback;
+		this.isCheck = false;
+		
+		this.registerEvent();
+	}
+
+	registerEvent = () => {
+		this.$check.onclick = this.update;
+	}
+
+	update = () => {
+		this.isCheck = !this.isCheck;
+		this.callback();
+	}
+}
+
+export { ChaController, ToneController, VowelContorller, PBController, PitchLockController }
