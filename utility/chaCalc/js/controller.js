@@ -50,14 +50,12 @@ class ToneController extends Controller {
 		this.$label = document.getElementById(labelId);
 		
 		this.callback = callback;
-		this.namePrsnt = true;
 		this.updateLabel();
 		this.registerEvent();
 	}
 
 	registerEvent = () => {
 		this.$range.oninput = this.update;
-		this.$label.onclick = this.switchNamePresnt;
 	}
 
 	update = () => {
@@ -65,13 +63,8 @@ class ToneController extends Controller {
 		this.callback();
 	}
 
-	switchNamePresnt = () => {
-		this.namePrsnt = !this.namePrsnt;
-		this.updateLabel();
-	}
-
 	updateLabel = () => {
-		const val = this.namePrsnt ? this.toneNamer() : this.freqNamer();
+		const val = this.toneNamer();
 		this.$label.innerHTML = "노트 : " + val;
 	}
 
@@ -89,6 +82,40 @@ class ToneController extends Controller {
 	freq = () => {
 		const val = this.$range.value;
 		return 110 * Math.pow(2, val / 12);
+	}
+}
+
+class PBController extends Controller {
+	constructor(rangeId, labelId, callback) {
+		super();
+
+		this.$range = document.getElementById(rangeId);
+		this.$label = document.getElementById(labelId);
+		this.value = 0;
+		this.callback = callback;
+
+		this.registerEvent();
+		this.updateLabel();
+	}
+
+	registerEvent = () => {
+		this.$range.oninput = this.update;
+		this.$label.onclick = this.reset;
+	}
+
+	update = () => {
+		this.value = this.$range.value / 480 * 2400;
+		this.updateLabel();
+		this.callback();
+	}
+
+	updateLabel = () => {
+		this.$label.innerHTML = "PB : " + this.value.toFixed(0) + "cent";
+	}
+
+	reset = () => {
+		this.$range.value = 0;
+		this.update();
 	}
 }
 
@@ -114,4 +141,4 @@ class VowelContorller extends Controller {
 	}
 }
 
-export { ChaController, ToneController, VowelContorller }
+export { ChaController, ToneController, VowelContorller, PBController }
