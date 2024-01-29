@@ -40,7 +40,7 @@ class ChaController extends Controller {
 	}
 }
 
-const toneName = [ "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#" ]
+const toneName = [ "A", "A♯", "B", "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯" ]
 
 class ToneController extends Controller {
 	constructor(rangeId, labelId, callback) {
@@ -96,7 +96,7 @@ class VowelContorller extends Controller {
 	constructor(selectorName, callback) {
 		super();
 		this.$selectors = document.querySelectorAll(`input[name='${selectorName}']`);
-		this.$value = document.querySelector(`input[name='${selectorName}']:checked`).value;
+		this.value = document.querySelector(`input[name='${selectorName}']:checked`).value;
 		this.callback = callback;
 
 		this.registerEvent();
@@ -109,7 +109,7 @@ class VowelContorller extends Controller {
 	}
 
 	update = () => {
-		this.$value = document.querySelector("input[name='vowelSelect']:checked").value;
+		this.value = document.querySelector("input[name='vowelSelect']:checked").value;
 		this.callback();
 	}
 }

@@ -1,4 +1,7 @@
+import parseCSV from './parsecsv.js';
+
 const DOMAIN = 5000;
+const RANGE = -100;
 const XTICK_COUNT = 11;
 
 export default class LineChart {
@@ -23,9 +26,11 @@ export default class LineChart {
 
 	parameter = {
 		pitch: 440,
+		tonename: 'A3',
 		vowel: 'kor_a',
 		cha: 0,
 	}
+	vowelSequence = undefined;
 
 	constructor(id) {
 		this.canvas = document.getElementById(id);
@@ -42,15 +47,15 @@ export default class LineChart {
 	
 	set pitch(freq) {
 		this.parameter.pitch = freq;
-		this.draw();
+		// this.draw();
 	}
 	set vowel(vowel) {
 		this.parameter.vowel = vowel;
-		this.draw();
+		// this.draw();
 	}
 	set cha(value) {
 		this.parameter.cha = value;
-		this.draw();
+		// this.draw();
 	}
 
 	resize = () => {
@@ -75,7 +80,7 @@ export default class LineChart {
 		ctx.clearRect(0, 0, width, height);
 		this._drawAxis();
 		this._drawHarmonics();
-
+		this._drawVowelFilter();
 	}
 
 	_drawAxis = () => {
@@ -121,11 +126,47 @@ export default class LineChart {
 		ctx.lineWidth = 1;
 		ctx.strokeStyle = this.primaryColor;
 		
+
 		const freq = this.pitch || 440;
+		const sequence = this.vowelSequence;
+
+		let j = 0;
+		let yPoint = NaN, yprePoint = NaN;
 		for (let i = 1; freq * i < DOMAIN; i++) {
 			const xPoint = left + freq * i / DOMAIN * width;
-			ctx.moveTo(xPoint, top);
+			yprePoint = yPoint;
+			if (sequence) { 
+				while( (Number(sequence[j]?.freq) || 0) < freq * i && j < sequence.length - 1) j++;
+				const x1 = Number(sequence[j-1]?.freq), x2 = Number(sequence[j].freq),
+					y1 = Number(sequence[j-1].dB), y2 = Number(sequence[j].dB),
+					yValue = (y2 - y1) / (x2 - x1) * (freq * i - x1) + y1;
+				yPoint = top + yValue / RANGE * height;
+			}
+			if (!yPoint) 
+				yPoint = yprePoint;
+			ctx.moveTo(xPoint, yPoint);
 			ctx.lineTo(xPoint, bottom);
+		}
+		ctx.stroke();
+	}
+
+	_drawVowelFilter = () => {
+		if (!this.vowelSequence)
+			return;
+
+		const ctx = this.ctx;
+		const {top, bottom, left, right, width, height} = this.chartAABB;
+		const sequence = this.vowelSequence;
+
+		ctx.beginPath();
+		ctx.lineWidth = 1;
+		ctx.strokeStyle = this.bodyColor;	
+
+		for (const e of sequence) {
+			if (!e.freq) continue;
+			const xPoint = left + e.freq / DOMAIN * width;
+			const yPoint = top + e.dB / RANGE * height;
+			ctx.lineTo(xPoint, yPoint);
 		}
 		ctx.stroke();
 	}
