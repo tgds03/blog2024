@@ -23,12 +23,12 @@ export default class LineChart {
 
 	primaryColor = "red"
 	bodyColor = "white"
+	offset = 0	// cent
 
 	parameter = {
 		pitch: 440,
 		tonename: 'A3',
 		vowel: 'kor_a',
-		cha: 0,
 	}
 	vowelSequence = undefined;
 
@@ -43,7 +43,6 @@ export default class LineChart {
 
 	get pitch() { return this.parameter.pitch; }
 	get vowel() { return this.parameter.vowel; }
-	get cha()		{ return this.parameter.cha; }
 	
 	set pitch(freq) {
 		this.parameter.pitch = freq;
@@ -51,10 +50,6 @@ export default class LineChart {
 	}
 	set vowel(vowel) {
 		this.parameter.vowel = vowel;
-		// this.draw();
-	}
-	set cha(value) {
-		this.parameter.cha = value;
 		// this.draw();
 	}
 
@@ -130,20 +125,26 @@ export default class LineChart {
 		const freq = this.pitch || 440;
 		const sequence = this.vowelSequence;
 
-		let j = 0;
+		let j = 0, f = 0;
 		let yPoint = NaN, yprePoint = NaN;
 		for (let i = 1; freq * i < DOMAIN; i++) {
 			const xPoint = left + freq * i / DOMAIN * width;
+			const coef = Math.pow(2, this.offset/1200);
 			yprePoint = yPoint;
 			if (sequence) { 
-				while( (Number(sequence[j]?.freq) || 0) < freq * i && j < sequence.length - 1) j++;
-				const x1 = Number(sequence[j-1]?.freq), x2 = Number(sequence[j].freq),
-					y1 = Number(sequence[j-1].dB), y2 = Number(sequence[j].dB),
+				while( f < freq * i && j < sequence.length - 1) {
+					f = Number(sequence[j]?.freq) * coef || 0;
+					j++;
+				}
+				const x1 = Number(sequence[j-1]?.freq) * coef,
+					x2 = Number(sequence[j].freq) * coef,
+					y1 = Number(sequence[j-1].dB), 
+					y2 = Number(sequence[j].dB),
 					yValue = (y2 - y1) / (x2 - x1) * (freq * i - x1) + y1;
 				yPoint = top + yValue / RANGE * height;
 			}
 			if (!yPoint) 
-				yPoint = yprePoint;
+				yPoint = Math.min(yprePoint + 1, bottom);
 			ctx.moveTo(xPoint, yPoint);
 			ctx.lineTo(xPoint, bottom);
 		}
@@ -164,7 +165,8 @@ export default class LineChart {
 
 		for (const e of sequence) {
 			if (!e.freq) continue;
-			const xPoint = left + e.freq / DOMAIN * width;
+			const freq = e.freq * Math.pow(2, this.offset / 1200);
+			const xPoint = left + freq / DOMAIN * width;
 			const yPoint = top + e.dB / RANGE * height;
 			ctx.lineTo(xPoint, yPoint);
 		}

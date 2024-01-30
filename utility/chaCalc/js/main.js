@@ -9,7 +9,7 @@ let pitchLock = false,
 	
 
 const chaContorller = new ChaController("chaRange", "chaRangeLabel", function () {
-	lineChart.cha = chaContorller.$range.value;
+	lineChart.offset = chaContorller.value;
 	chartUpdate();
 });
 
@@ -35,26 +35,11 @@ const toneController = new ToneController("toneRange", "toneRangeLabel", functio
 	pitchUpdate(pitch);
 })
 
-const pbController = new PBController("pbRange", "pbRangeLabel", function() {
+const pbController = new PBController("pbRange", "pbRangeLabel", "pbsSelect", function() {
 	let pitch = toneController.freq * Math.pow(2, pbController.value / 1200);
 
 	if (pitchLock) {
 		const $tRange = toneController.$range;
-		// if (pitch < pitchLockValue) {
-		// 	while (pitch < pitchLockValue) {
-		// 		$tRange.stepUp();
-		// 		toneController.updateVars();
-		// 		pitch = toneController.freq * Math.pow(2, pbController.value / 1200);
-		// 		if ($tRange.value == $tRange.max) return;
-		// 	}
-		// } else {
-		// 	while (pitch > pitchLockValue) {
-		// 		$tRange.stepDown();
-		// 		toneController.updateVars();
-		// 		pitch = toneController.freq * Math.pow(2, pbController.value / 1200);
-		// 		if ($tRange.value == $tRange.min) return;
-		// 	}
-		// }
 		while (Math.abs( Math.log2(pitch / pitchLockValue) * 12 ) > 0.51) {
 			if (pitch < pitchLockValue)
 				$tRange.stepUp();

@@ -16,12 +16,16 @@ class Controller {
 	}
 }
 
+
+
 class ChaController extends Controller {
+
 	constructor(rangeId, labelId, callback) {
 		super();
 
 		this.$range = document.getElementById(rangeId);
 		this.$label = document.getElementById(labelId);
+		this.$value = 0;
 		this.callback = callback;
 
 		this.registerEvent();
@@ -30,15 +34,28 @@ class ChaController extends Controller {
 
 	registerEvent = () => {
 		this.$range.oninput = this.update;
+		this.$label.onclick = this.reset;
+	}
+
+	reset = () => {
+		this.$range.value = 0;
+		this.update();
 	}
 
 	update = () => {
+		this.updateVars();
 		this.updateLabel();
 		this.callback();
 	}
 
 	updateLabel = () => {
 		this.$label.innerHTML = "CHA : " + this.$range.value;
+	}
+
+	updateVars = () => {
+		const coef = [0, 3.84, 0.0527, 0.00274],
+			rv = this.$range.value;
+		this.value = coef[3]*rv**3 + coef[2]*rv**2 + coef[1]*rv + coef[0];
 	}
 }
 
@@ -77,11 +94,12 @@ class ToneController extends Controller {
 }
 
 class PBController extends Controller {
-	constructor(rangeId, labelId, callback) {
+	constructor(rangeId, labelId, selectId, callback) {
 		super();
 
 		this.$range = document.getElementById(rangeId);
 		this.$label = document.getElementById(labelId);
+		this.$select = document.getElementById(selectId);
 		this.value = 0;
 		this._range = 480;
 		this._offset = 0;
@@ -94,6 +112,7 @@ class PBController extends Controller {
 	registerEvent = () => {
 		this.$range.oninput = this.update;
 		this.$label.onclick = this.reset;
+		this.$select.onchange = this.update;
 	}
 
 	update = () => {
@@ -103,7 +122,15 @@ class PBController extends Controller {
 	}
 
 	updateLabel = () => {
-		this.$label.innerHTML = "PB : " + this.value.toFixed(0) + "cent";
+		const cent = this.value.toFixed(0), pbs = this.$select.value;
+		const pb = (cent / (pbs * 100) * 8192).toFixed(0);
+		const string = `PB : ${pb} (${cent}cent)`;
+		if (Math.abs(pb) > 8192)
+			this.$label.classList.add("text-warning");
+		else
+		this.$label.classList.remove("text-warning");
+		
+		this.$label.innerHTML = string;
 	}
 
 	reset = () => {
