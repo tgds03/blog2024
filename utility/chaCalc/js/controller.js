@@ -154,9 +154,13 @@ class PBController extends Controller {
 class VowelContorller extends Controller {
 	constructor(selectorName, callback) {
 		super();
-		this.$selectors = document.querySelectorAll(`input[name='${selectorName}']`);
-		this.value = document.querySelector(`input[name='${selectorName}']:checked`).value;
+		this.selectorName = selectorName;
 		this.callback = callback;
+	}
+
+	init = () => {
+		this.$selectors = document.querySelectorAll(`input[name='${this.selectorName}']`);
+		this.value = document.querySelector(`input[name='${this.selectorName}']:checked`).value;
 
 		this.registerEvent();
 	}

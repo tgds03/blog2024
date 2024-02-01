@@ -89,6 +89,23 @@ xhr.onload = () => {
 		return;
 	}
 	vowelData = JSON.parse(xhr.response);
+
+	const $vowelTable = document.getElementById("vowelTable");
+	const availableVowel = vowelData.meta.vowel;
+	let i = 1;
+	for (const vowel in availableVowel) {
+		const symbol = availableVowel[vowel];
+		$vowelTable.insertAdjacentHTML('beforeend', `
+		<div class="col">
+			<input class="btn-check" type="radio" name="vowelSelect" id="vowelSelectRadio${i}" value="${vowel}" ${(i == 1) ? 'checked' : ''  }>
+			<label class="btn" for="vowelSelectRadio${i}">${symbol}</label>
+		</div>
+		`
+		)
+		i += 1;
+	}
+
+	vowelContorller.init();
 	chartUpdate();
 	pitchUpdate(523);
 }

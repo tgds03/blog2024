@@ -6,8 +6,8 @@ layout: default
 {% include breadCrumb.html categories=breadCrumb %}
 <h1> Category: {{ page.categories | last }} </h1>
 <div class="container mt-3">
-	<div class="row">
-		<div class="col-sm-4 d-flex flex-column">
+	<div class="row flex-column flex-md-row">
+		<div class="col-md-4 d-flex flex-column">
 			<h2> SuperCategory </h2>
 			<div class="list-group list-group-flush mb-5">
 				{% if page.categories.size == 1 %}
