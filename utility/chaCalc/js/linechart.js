@@ -118,9 +118,8 @@ export default class LineChart {
 		const {top, bottom, left, right, width, height} = this.chartAABB;
 
 		ctx.beginPath();
-		ctx.lineWidth = 1;
+		ctx.lineWidth = 1.5;
 		ctx.strokeStyle = this.primaryColor;
-		
 
 		const freq = this.pitch || 440;
 		const sequence = this.vowelSequence;
