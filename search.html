@@ -59,11 +59,9 @@ permalink: '/search/'
 			searchResultTemplate: template,
 			templateMiddleware: templateConverter,
 			noResultsText: '검색결과가 존재하지 않습니다.',
+			success: function() {this.search($searchInput.value);},
 			limit: 10000,
 			fuzzy: false,
 			exclude: ['Welcome']
 	});
-	setTimeout(() => {
-		jekyllSearch.search($searchInput.value);
-	}, 100)
 </script>

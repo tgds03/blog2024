@@ -364,7 +364,7 @@
 				search: search
 			}
 	
-			typeof options.success === 'function' && options.success.call(rv)
+			// typeof options.success === 'function' && options.success.call(rv)
 			return rv
 		}
 	
@@ -379,6 +379,7 @@
 					throwError('failed to get JSON (' + url + ')')
 				}
 				initWithJSON(json)
+				typeof options.success === 'function' && options.success.call({search: search});
 			})
 		}
 	
