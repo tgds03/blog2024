@@ -182,6 +182,7 @@ class PitchLockController extends Controller {
 		super();
 
 		this.$check = document.getElementById(checkId);
+		this.$check.checked = false;
 		this.callback = callback;
 		this.isCheck = false;
 		
