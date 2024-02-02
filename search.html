@@ -51,7 +51,7 @@ permalink: '/search/'
 	</li>`;
 	const $searchInput = document.getElementById('search-input');
 	$searchInput.value = localStorage.getItem("searchQuery");
-	// localStorage.removeItem("searchQuery");
+	localStorage.removeItem("searchQuery");
 	const jekyllSearch = SimpleJekyllSearch({
 			searchInput: document.getElementById('search-input'),
 			resultsContainer: document.getElementById('results-container'),
