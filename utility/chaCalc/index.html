@@ -1,8 +1,8 @@
 ---
 layout: utility
 ---
-<h1> CHA 계산기</h1>
-<div id="chaCalcContent">
+<h1 class="display-4"> CHA 계산기</h1>
+<div class="my-5" id="chaCalcContent">
 	<ul class="nav nav-tabs" id="navLib">
 		<li class="nav-item">
 			<a class="nav-link active" href="#">SeeU</a>
@@ -69,5 +69,10 @@ layout: utility
 			</div>
 		</div>
 	</div>
+</div>
+<hr>
+<div class="container my-5 p-3" id="README">
+	{% capture my_include %}{% include_relative README.md %}{% endcapture %}
+	{{ my_include | markdownify }}
 </div>
 <script type="module" src="./js/main.js"></script>

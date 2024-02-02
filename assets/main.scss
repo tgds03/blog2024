@@ -20,6 +20,11 @@ article > .footnotes {
 	padding-bottom: 1rem;
 }
 
+article img {
+	max-width: 100%;
+	height: auto;
+}
+
 // pre {
 // 	// background-color: var(--bs-secondary-bg);
 // 	border-radius: 0.5rem;

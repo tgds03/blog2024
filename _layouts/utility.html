@@ -5,17 +5,30 @@ layout: default
 {% assign breadCrumb = page.categories %}
 {% include breadCrumb.html categories=breadCrumb %}
 <div class="container mt-3">
-	<div class="row flex-column flex-md-row">
-		<div class="col-md-3 d-flex flex-column">
+	<div class="row flex-column flex-lg-row">
+		<div class="col-lg-3 d-flex flex-column">
 			<h2> Utility </h2>
 			<div class="list-group list-group-flush mb-5">
 				<a class="list-group-item list-group-item-action pe-0" href="/utility/chaCalc/"> <h3>CHA계산기</h3> </a>
 			</div>
 		</div>
-		<div class="col">
+		<article class="col">
 			{{ content }}
-		</div>
+		</article>
 	</div>
-
-	
 </div>
+
+<script>
+	function footnotePopover() {
+		const footnoteList = document.querySelectorAll(".footnote");
+		for (const footnote of footnoteList) {
+			footnote.classList.add("px-1");
+			const footnoteId = footnote.href.split('#')[1].replace(/:/g, "\\:");
+			const footnoteContent = document.querySelector(`#${footnoteId} > p`).firstChild.textContent.trim();
+			const tooltip = new bootstrap.Tooltip(footnote, {
+				title: footnoteContent
+			})
+		}
+	}
+	footnotePopover();
+</script>
