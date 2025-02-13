@@ -79,6 +79,10 @@ Vix eros constituto eu, integre veritus ad has, pro ea fabulas accommodare. Et s
 2. 국가는 청원에 대하여 심사할 의무를 진다. 행정각부의 설치·조직과 직무범위는 법률로 정한다.
 3. 대통령후보자가 1인일 때에는 그 득표수가 선거권자 총수의 3분의 1 이상이 아니면 대통령으로 당선될 수 없다.
 
+$$
+a+b=c
+$$
+
 # 로렘입숨
 
 - [다국어 로렘입숨 생성기](https://generator.lorem-ipsum.info/)
